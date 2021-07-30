@@ -2,6 +2,7 @@ package com.smalaca.rentalapplication.query.apartment;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -20,9 +21,22 @@ public class QueryApartmentRepository {
     }
 
     public ApartmentDetails findById(String id) {
-        ApartmentReadModel apartmentReadModel = springQueryApartmentRepository.findById(UUID.fromString(id)).get();
-        ApartmentBookingHistoryReadModel apartmentBookingHistoryReadModel = springQueryApartmentBookingHistoryRepository.findById(id).get();
+        Optional<ApartmentReadModel> found = springQueryApartmentRepository.findById(UUID.fromString(id));
 
-        return new ApartmentDetails(apartmentReadModel, apartmentBookingHistoryReadModel);
+        if(found.isPresent()){
+            ApartmentReadModel apartmentReadModel = found.get();
+            Optional<ApartmentBookingHistoryReadModel> foundHistory = springQueryApartmentBookingHistoryRepository.findById(id);
+            if(foundHistory.isPresent()){
+                ApartmentBookingHistoryReadModel apartmentBookingHistoryReadModel = foundHistory.get();
+                return ApartmentDetails.withHistory(apartmentReadModel, apartmentBookingHistoryReadModel);
+            }else{
+                return ApartmentDetails.withoutHistory(found.get());
+            }
+
+        }else{
+            return ApartmentDetails.notExisting();
+        }
+
+
     }
 }

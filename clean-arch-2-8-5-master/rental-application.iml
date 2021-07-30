@@ -14,7 +14,9 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
-        <datasource-mapping />
+        <datasource-mapping>
+          <factory-entry name="entityManagerFactory" />
+        </datasource-mapping>
         <naming-strategy-map />
       </configuration>
     </facet>
@@ -129,5 +131,9 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-jcl:5.2.9.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:5.2.9.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.7.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.tngtech.archunit:archunit-junit5-engine:0.15.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.tngtech.archunit:archunit:0.15.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.tngtech.archunit:archunit-junit5-api:0.15.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.tngtech.archunit:archunit-junit5-engine-api:0.15.0" level="project" />
   </component>
 </module>

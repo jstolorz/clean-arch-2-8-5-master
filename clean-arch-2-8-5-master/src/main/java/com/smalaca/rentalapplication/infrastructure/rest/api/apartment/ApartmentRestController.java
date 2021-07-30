@@ -4,14 +4,12 @@ import com.smalaca.rentalapplication.application.apartment.ApartmentApplicationS
 import com.smalaca.rentalapplication.query.apartment.ApartmentDetails;
 import com.smalaca.rentalapplication.query.apartment.ApartmentReadModel;
 import com.smalaca.rentalapplication.query.apartment.QueryApartmentRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-//@RestController
+import java.net.URI;
+
+@RestController
 @RequestMapping("/apartment")
 public class ApartmentRestController {
     private final ApartmentApplicationService apartmentApplicationService;
@@ -24,11 +22,13 @@ public class ApartmentRestController {
     }
 
     @PostMapping
-    public void add(@RequestBody ApartmentDto apartmentDto) {
-        apartmentApplicationService.add(
+    public ResponseEntity<String> add(@RequestBody ApartmentDto apartmentDto) {
+       String id = apartmentApplicationService.add(
                 apartmentDto.getOwnerId(), apartmentDto.getStreet(), apartmentDto.getPostalCode(), apartmentDto.getHouseNumber(),
                 apartmentDto.getApartmentNumber(), apartmentDto.getCity(), apartmentDto.getCountry(), apartmentDto.getDescription(),
                 apartmentDto.getRoomsDefinition());
+
+       return ResponseEntity.created(URI.create("/apartment/" + id)).build();
     }
 
     @PutMapping("/book/{id}")
